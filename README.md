@@ -1,36 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# myCare – Hospital Management & AI Support Platform
 
-## Getting Started
+## Description
+myCare is a hospital web platform for managing patients, appointments, staff workflows, and medical documentation, with integrated AI assistance for search, automation, and document understanding.  
+It is designed with strict role-based access, auditability, and compliance-first architecture.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Frontend**
+- Next.js (App Router)
+- Tailwind CSS
+- TypeScript
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Backend**
+- Next.js API routes (Node.js)
+- Supabase Postgres + pgvector
+- Row Level Security (RLS)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Authentication**
+- NextAuth
+- JWT-based sessions
+- Role-based authorization
 
-## Learn More
+**AI**
+- Ollama (local LLM runtime)
+- LangChain.js (orchestration)
+- Vector search via pgvector
 
-To learn more about Next.js, take a look at the following resources:
+**Storage**
+- Local filesystem (dev)
+- Supabase Storage (prod)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Access Levels & Features
 
-## Deploy on Vercel
+### 1. Public (No Login)
+**Purpose**
+- Trust building
+- Compliance visibility
+- Onboarding
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Features**
+- Landing page (services, value proposition)
+- Security & compliance information (HIPAA/GDPR)
+- Contact / demo request
+- Pricing (optional)
+- Privacy policy & terms
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Restrictions**
+- No dashboards
+- No patient or hospital data access
+
+---
+
+### 2. Patient Portal (Limited Access)
+**Scope**
+- Patients can access **only their own data**.
+
+**Features**
+- Secure login
+- View upcoming and past appointments
+- Book / reschedule appointments
+- View prescriptions (read-only)
+- View lab results (read-only)
+- Billing & invoices
+- Notifications (email/SMS)
+- Profile management
+
+**Explicitly NOT Allowed**
+- Viewing other patients
+- Editing medical records
+- Accessing staff or admin tools
+
+---
+
+### 3. Staff Portal (Role-Based)
+**Common Features**
+- Secure login
+- Role-based UI and permissions
+- Assigned patient access only
+
+**Doctor**
+- View patient medical records
+- Write diagnosis notes
+- Create prescriptions
+- Request lab tests
+- View appointment schedules
+- AI-assisted medical document summaries (non-diagnostic)
+
+**Nurse**
+- Enter vital signs
+- Update patient status
+- Medication tracking
+- Assist with patient monitoring
+
+**Receptionist**
+- Register new patients
+- Book and manage appointments
+- Queue management
+- Insurance verification
+
+**Restrictions**
+- Cannot manage system settings
+- Cannot create users
+- Cannot bypass audit logs
+
+---
+
+### 4. Admin Dashboard (Hospital Management SaaS)
+**User & Staff Management**
+- Create staff accounts
+- Assign roles (doctor, nurse, receptionist)
+- Suspend / reactivate users
+- Audit user actions
+
+**Patient Management**
+- Full patient database
+- Medical record access (audit-logged)
+- Merge duplicate records
+- Data export (compliance)
+
+**Operations**
+- Appointment rules
+- Department management
+- Shift scheduling
+- Room / bed management
+
+**Billing**
+- Service pricing
+- Invoice generation
+- Insurance integrations
+- Payment reports
+
+**Compliance & Security (Critical)**
+- Full audit logs (who accessed what and when)
+- Access history
+- Data retention policies
+- Consent management
+
+**System Configuration**
+- Hospital profile
+- Department setup
+- Permissions matrix
+- External integrations (labs, pharmacy)
+
+---
+
+## AI Capabilities (Scoped & Safe)
+**Available AI Tools**
+- Hospital Knowledge Base Search (vector-based)
+- Support AI Chatbot (non-clinical)
+- Medical Document Reader (non-diagnostic)
+- Doctor Notes Transcription
+- Workflow Automation Agent
+- Media / report generation (admin-only)
+
+**Restrictions**
+- No diagnosis
+- No treatment decisions
+- No cross-patient data access
+- All AI actions are logged
+
+---
+
+## Security Model
+- Role-based access control (RBAC)
+- Supabase Row Level Security (mandatory)
+- JWT session validation
+- Audit logs for all sensitive actions
+- Encrypted storage
+- Principle of least privilege
+
+---
+
+## Deployment Strategy
+
+**Development**
+- Local Supabase
+- Local Ollama
+- Local storage
+
+**Production**
+- Supabase hosted Postgres
+- Supabase Storage
+- Dockerized Ollama (isolated network)
+- Environment-based secrets
+
+---
+
+## Final Notes
+- myCare is **not** a generic CRUD app.
+- Admin ≠ Staff ≠ Patient dashboards.
+- AI is **assistive**, not diagnostic.
+- Compliance is a **core feature**, not an add-on.
