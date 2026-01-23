@@ -2,8 +2,8 @@
 
 import { ReactNode } from "react"
 import { ThemeProvider } from "@/lib/theme/ThemeProvider"
-import { Header } from "@/components/Header"
-import { Footer } from "@/components/Footer"
+import  Header  from "@/components/public/header/public-header"
+import  Footer  from "@/components/public/public-footer"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
 
@@ -26,7 +26,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="flex-1 px-4 sm:px-6 md:px-8"
+            className="flex-1 px-4 sm:px-6 md:px-8 pt-[40px]"
           >
             {children}
           </motion.main>
